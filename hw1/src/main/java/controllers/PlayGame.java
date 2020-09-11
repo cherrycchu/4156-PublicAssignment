@@ -44,6 +44,9 @@ class PlayGame {
      * Please add your end points here.
      * 
      */
+    app.get("/newgame", ctx -> {
+    	ctx.redirect("/tictactoe.html");
+    });
 
     // Web sockets - DO NOT DELETE or CHANGE
     app.ws("/gameboard", new UiWebSocket());
