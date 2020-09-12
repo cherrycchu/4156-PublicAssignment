@@ -43,5 +43,36 @@ public class GameBoard {
   public void setGameStarted(boolean gameStarted) {
 	  this.gameStarted = gameStarted;
   }
+  
+  public boolean isValid(Move move, Message message) {
+	  message.setCode(move.getPlayer().getId()*100 + move.getMoveX()*10 + move.getMoveY());
+	  if (move.getPlayer().getId() != turn) {
+		  message.setMoveValidity(false);
+		  message.setMessage("Not Your Turn!");
+		  return false;
+	  }
+	  else if (boardState[move.getMoveX()][move.getMoveY()] != '\u0000') {
+		  message.setMoveValidity(false);
+		  message.setMessage("Invalid Move. Try Again!");
+		  return false;		  
+	  }
+	  else {
+		  message.setMoveValidity(true);
+		  return true;
+	  }
+
+  }
+  
+  public void makeMove(Move move) {
+	  char mark = move.getPlayer().getType();
+	  boardState[move.getMoveX()][move.getMoveY()] = mark;
+  }
+  
+  public Player getPlayer(int playerId) {
+	  if (playerId == 1)
+		  return p1;
+	  else
+		  return p2;
+  }
 
 }

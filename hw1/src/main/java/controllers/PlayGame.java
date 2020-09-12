@@ -6,6 +6,8 @@ import java.util.Queue;
 import org.eclipse.jetty.websocket.api.Session;
 import models.Player;
 import models.GameBoard;
+import models.Move;
+import models.Message;
 import com.google.gson.Gson;
 
 class PlayGame {
@@ -53,6 +55,21 @@ class PlayGame {
         ctx.redirect("/tictactoe.html?p=2");
         board.setGameStarted(true);
         sendGameBoardToAllPlayers(new Gson().toJson(board));
+    });
+
+    app.post("/move/:playerId", ctx -> {
+    	int playerId = Integer.parseInt(ctx.pathParam("playerId"));
+    	Move move = new Move();
+    	Message message = new Message();
+    	move.setPlayer(board.getPlayer(playerId));
+    	move.setMoveX(Integer.parseInt(ctx.formParam("x")));
+    	move.setMoveY(Integer.parseInt(ctx.formParam("y")));
+    	if (board.isValid(move, message)) {
+    		board.makeMove(move);
+    		board.switchTurn();
+    	}
+    	sendGameBoardToAllPlayers(new Gson().toJson(board));
+    	ctx.result(new Gson().toJson(message));
     });
 
     // Web sockets - DO NOT DELETE or CHANGE
