@@ -2,77 +2,215 @@ package models;
 
 public class GameBoard {
 
+  /**
+   * Player who starts the game.
+   */
   private Player p1;
 
+  /**
+   * Player who joins the game.
+   */
   private Player p2;
 
+  /**
+   * Game starts immediately after both players joined.
+   */
   private boolean gameStarted;
 
+  /**
+   * Indicate which players turn is it.
+   */
   private int turn = 1;
 
-  private char[][] boardState = new char[3][3];
+  /**
+   * Record current board status.
+   */
+  private char[][] boardState;
 
+  /**
+   * Player wins a game when three in a row/column.
+   */
   private int winner;
 
+  /**
+   * Game is a draw when moves are exhausted.
+   */
   private boolean isDraw;
-  
+
+  /**
+   * Count the number of moves so far.
+   */
+  private int moves;
+
+  /**
+   * Set dimension of game board.
+   */
+  static final int DIM = 3;
+
+  /**
+   * Initialize game board.
+   */
+  public void setBoardState() {
+    boardState = new char[DIM][DIM];
+  }
+
+  /**
+   * Get player 1.
+   * @return Player 1 object.
+   */
   public Player getP1() {
-	  return p1;
+    return p1;
   }
-  
+
+  /**
+   * Get player 2.
+   * @return Player 2 object
+   */
   public Player getP2() {
-	  return p2;
+    return p2;
   }
-  
-  public void setP1(Player p1) {
-	  this.p1 =  p1;
+
+  /**
+   * Set player 1 of game board.
+   * @param p Player object
+   */
+  public void setP1(final Player p) {
+    this.p1 =  p;
   }
-  
-  public void setP2(Player p2) {
-	  this.p2 = p2;
+
+  /**
+   * Set player 2 of game board.
+   * @param p Player object
+   */
+  public void setP2(final Player p) {
+    this.p2 = p;
   }
-  
+
+  /**
+   * Give turn to other player.
+   */
   public void switchTurn() {
-	  turn = turn % 2 + 1;
+    turn = turn % 2 + 1;
   }
-  
+
+  /**
+   * Check if game started.
+   * @return boolean
+   */
   public boolean isGameStarted() {
-	  return gameStarted; 
+    return gameStarted;
   }
-	
-  public void setGameStarted(boolean gameStarted) {
-	  this.gameStarted = gameStarted;
+
+  /**
+   * Starts the game.
+   * @param started
+   */
+  public void setGameStarted(final boolean started) {
+    this.gameStarted = started;
   }
-  
-  public boolean isValid(Move move, Message message) {
-	  message.setCode(move.getPlayer().getId()*100 + move.getMoveX()*10 + move.getMoveY());
-	  if (move.getPlayer().getId() != turn) {
-		  message.setMoveValidity(false);
-		  message.setMessage("Not Your Turn!");
-		  return false;
-	  }
-	  else if (boardState[move.getMoveX()][move.getMoveY()] != '\u0000') {
-		  message.setMoveValidity(false);
-		  message.setMessage("Invalid Move. Try Again!");
-		  return false;		  
-	  }
-	  else {
-		  message.setMoveValidity(true);
-		  return true;
-	  }
+
+  /**
+   * Check if move is valid.
+   * @param move
+   * @param message
+   * @return boolean
+   */
+  public boolean isValid(final Move move, final Message message) {
+    String code = String.valueOf(move.getPlayer().getId());
+    code += String.valueOf(move.getMoveX());
+    code += String.valueOf(move.getMoveY());
+    message.setCode(Integer.parseInt(code));
+    if (move.getPlayer().getId() != turn) {
+      message.setMoveValidity(false);
+      message.setMessage("Not Your Turn!");
+      return false;
+    } else if (boardState[move.getMoveX()][move.getMoveY()] != '\u0000') {
+      message.setMoveValidity(false);
+      message.setMessage("Invalid Move. Try Again!");
+      return false;
+    } else {
+      message.setMoveValidity(true);
+      return true;
+    }
 
   }
-  
-  public void makeMove(Move move) {
-	  char mark = move.getPlayer().getType();
-	  boardState[move.getMoveX()][move.getMoveY()] = mark;
+
+  /**
+   * Mark the move on game board.
+   * @param move
+   */
+  public void makeMove(final Move move) {
+    char mark = move.getPlayer().getType();
+    boardState[move.getMoveX()][move.getMoveY()] = mark;
+    addMoves();
   }
-  
-  public Player getPlayer(int playerId) {
-	  if (playerId == 1)
-		  return p1;
-	  else
-		  return p2;
+
+  /**
+   * Get player from player id.
+   * @param playerId
+   * @return player object
+   */
+  public Player getPlayer(final int playerId) {
+    if (playerId == 1) {
+      return p1;
+    } else {
+      return p2;
+    }
+  }
+
+  /**
+   * Check if game is over.
+   * @param move
+   * @return boolean
+   */
+  public boolean isOver(final Move move) {
+    if (moves == boardState.length * boardState.length) {
+      isDraw = true;
+      return true;
+    }
+    int row = move.getMoveX();
+    int col = move.getMoveY();
+    if (boardState[0][col] ==  boardState[1][col]
+      && boardState[0][col] == boardState[2][col]) {
+      winner = move.getPlayer().getId();
+      return true;
+    } else if (boardState[row][0] == boardState[row][1]
+      && boardState[row][0] == boardState[row][2]) {
+      winner = move.getPlayer().getId();
+      return true;
+    } else if (row == col && boardState[0][0] == boardState[1][1]
+      && boardState[0][0] == boardState[2][2]) {
+      winner = move.getPlayer().getId();
+      return true;
+    } else if (row + col == 2 && boardState[0][2] == boardState[1][1]
+      && boardState[0][2] == boardState[2][0]) {
+      winner = move.getPlayer().getId();
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Increment number of moves made.
+   */
+  public void addMoves() {
+    moves++;
+  }
+
+  /**
+   * Get isDraw variable.
+   * @return isDraw variable
+   */
+  public boolean getIsDraw() {
+    return isDraw;
+  }
+
+  /**
+   * Get winner variable.
+   * @return winner variable
+   */
+  public int getWinner() {
+    return winner;
   }
 
 }

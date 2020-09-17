@@ -2,34 +2,67 @@ package models;
 
 public class Move {
 
+  /**
+   * Player who makes the move.
+   */
   private Player player;
 
+  /**
+   * Index of row of the move.
+   */
   private int moveX;
 
+  /**
+   * Index of column of the move.
+   */
   private int moveY;
 
-  public void setPlayer(Player player) {
-	  this.player = player;
-  }
-  
-  public Player getPlayer() {
-	  return player;
-  }
-  
-  public void setMoveX(int moveX) {
-	  this.moveX = moveX;
-  }
-  
-  public int getMoveX() {
-	  return moveX;
+  /**
+   * Set player of the move.
+   * @param p Player object
+   */
+  public void setPlayer(final Player p) {
+    this.player = p;
   }
 
-  public void setMoveY(int moveY) {
-	  this.moveY = moveY;
+  /**
+   * Get player of the move.
+   * @return Player object
+   */
+  public Player getPlayer() {
+    return player;
   }
-  
+
+  /**
+   * Set row index.
+   * @param x
+   */
+  public void setMoveX(final int x) {
+    this.moveX = x;
+  }
+
+  /**
+   * Get row index.
+   * @return int row index.
+   */
+  public int getMoveX() {
+    return moveX;
+  }
+
+  /**
+   * Set column index.
+   * @param y
+   */
+  public void setMoveY(final int y) {
+    this.moveY = y;
+  }
+
+  /**
+   * Get column index.
+   * @return column index
+   */
   public int getMoveY() {
-	  return moveY;
+    return moveY;
   }
-  
+
 }
