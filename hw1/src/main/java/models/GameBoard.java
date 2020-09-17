@@ -100,18 +100,19 @@ public class GameBoard {
    * @return gameStarted variable
    */
   public boolean getGameStarted() {
-	  return gameStarted;
-  }
-  /**
-   * Get current turn.
-   * @return
-   */
-  public int getTurn() {
-	  return turn;
+    return gameStarted;
   }
 
   /**
-   * Set current turn
+   * Get current turn.
+   * @return current player's turn
+   */
+  public int getTurn() {
+    return turn;
+  }
+
+  /**
+   * Set current turn.
    * @param t Player's turn
    */
   public void setTurn(final int t) {
@@ -137,7 +138,7 @@ public class GameBoard {
    * @return board state
    */
   public char[][] getBoardState() {
-	  return boardState;
+    return boardState;
   }
 
   /**
@@ -233,7 +234,7 @@ public class GameBoard {
    * @param draw
    */
   public void setIsDraw(final boolean draw) {
-	  this.isDraw = draw;
+    this.isDraw = draw;
   }
 
   /**
@@ -249,7 +250,7 @@ public class GameBoard {
    * @param playerId
    */
   public void setWinner(final int playerId) {
-	  this.winner = playerId;
+    this.winner = playerId;
   }
   /**
    * Get winner variable.
@@ -264,7 +265,7 @@ public class GameBoard {
    * @param numMoves
    */
   public void setMoves(final int numMoves) {
-	  this.moves = numMoves;
+    this.moves = numMoves;
   }
 
   /**
@@ -272,7 +273,7 @@ public class GameBoard {
    * @return number of moves
    */
   public int getMoves() {
-	  return moves;
+    return moves;
   }
 
 }
