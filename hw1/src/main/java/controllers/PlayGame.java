@@ -50,6 +50,8 @@ final class PlayGame {
 
     app.post("/startgame", ctx -> {
       board.setBoardState();
+      board.setMoves(0);
+      board.setTurn(1);
       Player p1 = new Player();
       board.setP1(p1);
       p1.setType(ctx.formParam("type").charAt(0));
@@ -75,7 +77,7 @@ final class PlayGame {
       int playerId = Integer.parseInt(ctx.pathParam("playerId"));
       Move move = new Move();
       Message message = new Message();
-      move.setPlayer(board.getPlayer(playerId));
+      move.setPlayer(board.getPlayerFromId(playerId));
       move.setMoveX(Integer.parseInt(ctx.formParam("x")));
       move.setMoveY(Integer.parseInt(ctx.formParam("y")));
       if (board.isValid(move, message)) {

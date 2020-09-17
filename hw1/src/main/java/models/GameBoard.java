@@ -20,7 +20,7 @@ public class GameBoard {
   /**
    * Indicate which players turn is it.
    */
-  private int turn = 1;
+  private int turn;
 
   /**
    * Record current board status.
@@ -43,16 +43,9 @@ public class GameBoard {
   private int moves;
 
   /**
-   * Set dimension of game board.
+   * Set dimension of game board (default is 3).
    */
   static final int DIM = 3;
-
-  /**
-   * Initialize game board.
-   */
-  public void setBoardState() {
-    boardState = new char[DIM][DIM];
-  }
 
   /**
    * Get player 1.
@@ -60,14 +53,6 @@ public class GameBoard {
    */
   public Player getP1() {
     return p1;
-  }
-
-  /**
-   * Get player 2.
-   * @return Player 2 object
-   */
-  public Player getP2() {
-    return p2;
   }
 
   /**
@@ -79,18 +64,19 @@ public class GameBoard {
   }
 
   /**
+   * Get player 2.
+   * @return Player 2 object
+   */
+  public Player getP2() {
+    return p2;
+  }
+
+  /**
    * Set player 2 of game board.
    * @param p Player object
    */
   public void setP2(final Player p) {
     this.p2 = p;
-  }
-
-  /**
-   * Give turn to other player.
-   */
-  public void switchTurn() {
-    turn = turn % 2 + 1;
   }
 
   /**
@@ -107,6 +93,51 @@ public class GameBoard {
    */
   public void setGameStarted(final boolean started) {
     this.gameStarted = started;
+  }
+
+  /**
+   * Get gameStarted variable.
+   * @return gameStarted variable
+   */
+  public boolean getGameStarted() {
+	  return gameStarted;
+  }
+  /**
+   * Get current turn.
+   * @return
+   */
+  public int getTurn() {
+	  return turn;
+  }
+
+  /**
+   * Set current turn
+   * @param t Player's turn
+   */
+  public void setTurn(final int t) {
+    this.turn = t;
+  }
+
+  /**
+   * Give turn to other player.
+   */
+  public void switchTurn() {
+    turn = turn % 2 + 1;
+  }
+
+  /**
+   * Initialize game board.
+   */
+  public void setBoardState() {
+    boardState = new char[DIM][DIM];
+  }
+
+  /**
+   * get current board state.
+   * @return board state
+   */
+  public char[][] getBoardState() {
+	  return boardState;
   }
 
   /**
@@ -150,7 +181,7 @@ public class GameBoard {
    * @param playerId
    * @return player object
    */
-  public Player getPlayer(final int playerId) {
+  public Player getPlayerFromId(final int playerId) {
     if (playerId == 1) {
       return p1;
     } else {
@@ -198,6 +229,14 @@ public class GameBoard {
   }
 
   /**
+   * Set isDraw variable.
+   * @param draw
+   */
+  public void setIsDraw(final boolean draw) {
+	  this.isDraw = draw;
+  }
+
+  /**
    * Get isDraw variable.
    * @return isDraw variable
    */
@@ -206,11 +245,34 @@ public class GameBoard {
   }
 
   /**
+   * Set winner.
+   * @param playerId
+   */
+  public void setWinner(final int playerId) {
+	  this.winner = playerId;
+  }
+  /**
    * Get winner variable.
    * @return winner variable
    */
   public int getWinner() {
     return winner;
+  }
+
+  /**
+   * Set number of moves made.
+   * @param numMoves
+   */
+  public void setMoves(final int numMoves) {
+	  this.moves = numMoves;
+  }
+
+  /**
+   * Get number of moves made.
+   * @return number of moves
+   */
+  public int getMoves() {
+	  return moves;
   }
 
 }
