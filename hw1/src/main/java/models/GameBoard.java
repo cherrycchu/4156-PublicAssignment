@@ -38,11 +38,6 @@ public class GameBoard {
   private boolean isDraw;
 
   /**
-   * Count the number of moves so far.
-   */
-  private int moves;
-
-  /**
    * Set dimension of game board (default is 3).
    */
   static final int DIM = 3;
@@ -174,7 +169,6 @@ public class GameBoard {
   public void makeMove(final Move move) {
     char mark = move.getPlayer().getType();
     boardState[move.getMoveX()][move.getMoveY()] = mark;
-    addMoves();
   }
 
   /**
@@ -196,6 +190,14 @@ public class GameBoard {
    * @return boolean
    */
   public boolean isOver(final Move move) {
+    int moves = 0;
+    for (int i = 0; i < boardState.length; i++) {
+      for (int j = 0; j < boardState.length; j++) {
+        if (boardState[i][j] == 'X' || boardState[i][j] == 'O') {
+          moves++;
+        }
+      }
+    }
     if (moves == boardState.length * boardState.length) {
       isDraw = true;
       return true;
@@ -220,13 +222,6 @@ public class GameBoard {
       return true;
     }
     return false;
-  }
-
-  /**
-   * Increment number of moves made.
-   */
-  public void addMoves() {
-    moves++;
   }
 
   /**
@@ -258,22 +253,6 @@ public class GameBoard {
    */
   public int getWinner() {
     return winner;
-  }
-
-  /**
-   * Set number of moves made.
-   * @param numMoves
-   */
-  public void setMoves(final int numMoves) {
-    this.moves = numMoves;
-  }
-
-  /**
-   * Get number of moves made.
-   * @return number of moves
-   */
-  public int getMoves() {
-    return moves;
   }
 
 }

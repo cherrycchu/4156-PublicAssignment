@@ -50,7 +50,6 @@ final class PlayGame {
 
     app.post("/startgame", ctx -> {
       board.setBoardState();
-      board.setMoves(0);
       board.setTurn(1);
       Player p1 = new Player();
       board.setP1(p1);
@@ -106,7 +105,6 @@ final class PlayGame {
       } catch (IOException e) {
         // Add logger here
         e.printStackTrace();
-        //LOG.log("Could not do what I wanted", e);
       }
     }
   }
