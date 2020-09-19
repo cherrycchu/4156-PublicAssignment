@@ -15,7 +15,7 @@ public class Message {
   /**
    * Message return to player after move (if any).
    */
-  private String message = "";
+  private String message;
 
   /**
    * Set moveValidity.
@@ -43,7 +43,7 @@ public class Message {
 
   /**
    * Get code of a move.
-   * @return code int
+   * @return code integer
    */
   public int getCode() {
     return code;

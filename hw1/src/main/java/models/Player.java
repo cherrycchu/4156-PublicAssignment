@@ -30,7 +30,7 @@ public class Player {
 
   /**
    * Get ID of the player.
-   * @return int
+   * @return integer
    */
   public int getId() {
     return id;

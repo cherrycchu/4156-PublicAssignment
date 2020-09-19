@@ -43,7 +43,7 @@ public class Move {
 
   /**
    * Get row index.
-   * @return int row index.
+   * @return row index integer
    */
   public int getMoveX() {
     return moveX;
@@ -59,7 +59,7 @@ public class Move {
 
   /**
    * Get column index.
-   * @return column index
+   * @return column index integer
    */
   public int getMoveY() {
     return moveY;
