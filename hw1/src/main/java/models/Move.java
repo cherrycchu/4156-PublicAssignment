@@ -35,7 +35,7 @@ public class Move {
 
   /**
    * Set row index.
-   * @param x
+   * @param x int
    */
   public void setMoveX(final int x) {
     this.moveX = x;
@@ -51,7 +51,7 @@ public class Move {
 
   /**
    * Set column index.
-   * @param y
+   * @param y int
    */
   public void setMoveY(final int y) {
     this.moveY = y;

@@ -19,7 +19,7 @@ public class Message {
 
   /**
    * Set moveValidity.
-   * @param validity
+   * @param validity boolean
    */
   public void setMoveValidity(final boolean validity) {
     this.moveValidity = validity;
@@ -35,7 +35,7 @@ public class Message {
 
   /**
    * Set Code for a move.
-   * @param c
+   * @param c int
    */
   public void setCode(final int c) {
     this.code = c;
@@ -51,7 +51,7 @@ public class Message {
 
   /**
    * Set message.
-   * @param msg
+   * @param msg String
    */
   public void setMessage(final String msg) {
     this.message = msg;

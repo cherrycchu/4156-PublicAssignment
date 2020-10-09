@@ -22,7 +22,7 @@ public class Player {
 
   /**
    * Set symbol for the player.
-   * @param mark
+   * @param mark char
    */
   public void setType(final char mark) {
     this.type = mark;

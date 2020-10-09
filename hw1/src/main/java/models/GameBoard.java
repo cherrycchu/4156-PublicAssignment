@@ -38,11 +38,6 @@ public class GameBoard {
   private boolean isDraw;
 
   /**
-   * Set dimension of game board (default is 3).
-   */
-  static final int DIM = 3;
-
-  /**
    * Get player 1.
    * @return Player 1 object.
    */
@@ -84,7 +79,7 @@ public class GameBoard {
 
   /**
    * Starts the game.
-   * @param started
+   * @param started boolean
    */
   public void setGameStarted(final boolean started) {
     this.gameStarted = started;
@@ -122,40 +117,83 @@ public class GameBoard {
   }
 
   /**
-   * Initialize game board.
+   * Set Game Board state.
+   * @param state char[][]
    */
-  public void setBoardState() {
-    boardState = new char[DIM][DIM];
+  public void setBoardState(final char[][] state) {
+    int dim = state.length;
+    char[][] copy = new char[dim][dim];
+    for (int i = 0; i < dim; i++) {
+      for (int j = 0; j < dim; j++) {
+        copy[i][j] = state[i][j];
+      }
+    }
+    this.boardState = copy;
   }
 
   /**
-   * get current board state.
-   * @return board state
+   * Return game board state.
+   * @return boardState
    */
   public char[][] getBoardState() {
-    return boardState;
+    int dim = boardState.length;
+    char[][] state = new char[dim][dim];
+    for (int i = 0; i < dim; i++) {
+      for (int j = 0; j < dim; j++) {
+        state[i][j] = boardState[i][j];
+      }
+    }
+    return state;
   }
 
   /**
    * Check if move is valid.
-   * @param move
-   * @param message
+   * @param move Move
+   * @param message Message
    * @return boolean
    */
   public boolean isValid(final Move move, final Message message) {
     String code = String.valueOf(move.getPlayer().getId());
     code += String.valueOf(move.getMoveX());
     code += String.valueOf(move.getMoveY());
-    message.setCode(Integer.parseInt(code));
+    if (!isGameStarted()) {
+      message.setCode(Integer.parseInt(code));
+      message.setMoveValidity(false);
+      message.setMessage("Wait for Player 2 to join!");
+      return false;
+    }
+    if (isDraw) {
+      message.setCode(Integer.parseInt(code));
+      message.setMoveValidity(false);
+      message.setMessage("Game ended.");
+      return false;
+    }
+    if (winner != 0) {
+      message.setCode(Integer.parseInt(code));
+      message.setMoveValidity(false);
+      message.setMessage("Game ended.");
+      return false;
+    }
     if (move.getPlayer().getId() != turn) {
+      message.setCode(Integer.parseInt(code));
       message.setMoveValidity(false);
       message.setMessage("Not Your Turn!");
       return false;
+    } else if (move.getMoveX() < 0 || move.getMoveX() > 2) {
+      message.setMoveValidity(false);
+      message.setMessage("Invalid Row Index!");
+      return false;
+    } else if (move.getMoveY() < 0 || move.getMoveY() > 2) {
+      message.setMoveValidity(false);
+      message.setMessage("Invalid Column Index!");
+      return false;
     } else if (boardState[move.getMoveX()][move.getMoveY()] != '\u0000') {
+      message.setCode(Integer.parseInt(code));
       message.setMoveValidity(false);
       message.setMessage("Invalid Move. Try Again!");
       return false;
     } else {
+      message.setCode(Integer.parseInt(code));
       message.setMoveValidity(true);
       return true;
     }
@@ -164,7 +202,7 @@ public class GameBoard {
 
   /**
    * Mark the move on game board.
-   * @param move
+   * @param move Move
    */
   public void makeMove(final Move move) {
     char mark = move.getPlayer().getType();
@@ -173,7 +211,7 @@ public class GameBoard {
 
   /**
    * Get player from player id.
-   * @param playerId
+   * @param playerId int
    * @return player object
    */
   public Player getPlayerFromId(final int playerId) {
@@ -186,7 +224,7 @@ public class GameBoard {
 
   /**
    * Check if game is over.
-   * @param move
+   * @param move Move
    * @return boolean
    */
   public boolean isOver(final Move move) {
@@ -205,19 +243,19 @@ public class GameBoard {
     int row = move.getMoveX();
     int col = move.getMoveY();
     if (boardState[0][col] ==  boardState[1][col]
-      && boardState[0][col] == boardState[2][col]) {
+        && boardState[0][col] == boardState[2][col]) {
       winner = move.getPlayer().getId();
       return true;
     } else if (boardState[row][0] == boardState[row][1]
-      && boardState[row][0] == boardState[row][2]) {
+        && boardState[row][0] == boardState[row][2]) {
       winner = move.getPlayer().getId();
       return true;
     } else if (row == col && boardState[0][0] == boardState[1][1]
-      && boardState[0][0] == boardState[2][2]) {
+        && boardState[0][0] == boardState[2][2]) {
       winner = move.getPlayer().getId();
       return true;
     } else if (row + col == 2 && boardState[0][2] == boardState[1][1]
-      && boardState[0][2] == boardState[2][0]) {
+        && boardState[0][2] == boardState[2][0]) {
       winner = move.getPlayer().getId();
       return true;
     }
@@ -226,7 +264,7 @@ public class GameBoard {
 
   /**
    * Set isDraw variable.
-   * @param draw
+   * @param draw boolean
    */
   public void setIsDraw(final boolean draw) {
     this.isDraw = draw;
@@ -242,14 +280,15 @@ public class GameBoard {
 
   /**
    * Set winner.
-   * @param playerId
+   * @param playerId int
    */
   public void setWinner(final int playerId) {
     this.winner = playerId;
   }
+
   /**
    * Get winner variable.
-   * @return winner variable
+   * @return winner int
    */
   public int getWinner() {
     return winner;
