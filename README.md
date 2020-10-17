@@ -1,1 +1,1 @@
-# Public Assignment for COMS W4156
+# Tic-Tac-Toe Game
